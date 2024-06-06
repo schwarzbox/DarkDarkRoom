@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://bqdg2idsev2if"]
+
+[ext_resource type="PackedScene" uid="uid://kn4un6yv7630" path="res://scenes/base/view/view.tscn" id="1_k01ea"]
+[ext_resource type="Script" path="res://scenes/views/game/labirinth/labirinth.gd" id="2_orhx3"]
+[ext_resource type="Script" path="res://scenes/views/game/labirinth/models.gd" id="3_qdkl7"]
+[ext_resource type="PackedScene" uid="uid://vbjphhnejpr8" path="res://scenes/models/enemy/enemy.tscn" id="4_kecu7"]
+
+[node name="Labirinth" instance=ExtResource("1_k01ea")]
+script = ExtResource("2_orhx3")
+
+[node name="Label" type="Label" parent="CanvasLayer" index="0"]
+offset_right = 55.0
+offset_bottom = 14.0
+text = "Enemies"
+
+[node name="Models" type="Node2D" parent="World" index="0"]
+script = ExtResource("3_qdkl7")
+_enemy_scene = ExtResource("4_kecu7")
+_number_enemies = 5
+
+[connection signal="level_changed" from="." to="World/Models" method="_on_labirinth_level_changed"]
+[connection signal="number_enemies_changed" from="World/Models" to="." method="_on_models_number_enemies_changed"]

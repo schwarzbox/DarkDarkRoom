@@ -3,46 +3,34 @@ extends View
 const PLAYER_SCENE: PackedScene = preload("res://scenes/models/player/player.tscn")
 var player: Node2D = null
 
-var _views: Array = []
-var _views_scenes: Dictionary = {
-	" - 1 - ": preload("res://scenes/views/game/levels/level/level.tscn")
-}
+var LABIRINTH_SCENE: PackedScene = preload("res://scenes/views/game/labirinth/labirinth.tscn")
+var labirinth: View = null
+var level: int = 0
 
 func _ready() -> void:
 	prints(name, "ready")
 
 	for node in [
 		$CanvasLayer/Menu/VBoxContainer/Label,
+		$CanvasLayer/Menu/VBoxContainer/Button,
 		$CanvasLayer/Menu/VBoxContainer/Back
 	]:
 		node.add_theme_font_size_override(
 			"font_size", Globals.FONTS.DEFAULT_FONT_SIZE
 		)
 
-	var keys = _views_scenes.keys()
-	for i in range(keys.size()):
-		var button: Button = Button.new()
-		button.text = keys[i]
-		button.connect("pressed", Callable(self, "_on_view_started").bind(i))
-		button.add_theme_font_size_override(
-			"font_size", Globals.FONTS.DEFAULT_FONT_SIZE
-		)
-
-		$CanvasLayer/Menu/VBoxContainer/GridContainer.add_child(button)
-
 	_setup()
 
 func _setup() -> void:
 	player = PLAYER_SCENE.instantiate()
-	_views.clear()
+	labirinth = LABIRINTH_SCENE.instantiate()
+	
+	player.connect("player_died", Callable(labirinth, "_on_player_died"))
 
-	for view_scene in _views_scenes.values():
-		var node: Node = view_scene.instantiate()
-		node.connect("view_restarted", self._on_view_restarted)
-		node.connect("view_changed", self._on_view_changed)
-		node.connect("view_exited", self._on_view_exited)
-		_views.append(node)
-
+	labirinth.connect("view_restarted", self._on_view_restarted)
+	labirinth.connect("view_changed", self._on_view_changed)
+	labirinth.connect("view_exited", self._on_view_exited)
+		
 	$CanvasLayer.show()
 	$AudioStreamPlayer.play()
 
@@ -59,21 +47,17 @@ func _change(view: Node) -> void:
 	view.remove_models_child(player)
 	remove_world_child(view)
 
-	var index: int = _views.find(view)
-	if index < _views.size()-1:
-		call_deferred("_start", _views[index+1])
-	else:
-		view.queue_free()
-		call_deferred("_setup")
+	level += 1
+	labirinth.next_level(level)
+	call_deferred("_start", labirinth)
 
-func _on_view_started(index: int) -> void:
-	call_deferred("_start", _views[index])
+func _on_view_started() -> void:
+	call_deferred("_start", labirinth)
 
 func _on_view_restarted(view: Node) -> void:
 	view.queue_free()
-	var index: int = _views.find(view)
 	_setup()
-	call_deferred("_start", _views[index])
+	call_deferred("_start", labirinth)
 
 func _on_view_changed(view: Node) -> void:
 	_set_transition(_change, view)

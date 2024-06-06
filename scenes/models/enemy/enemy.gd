@@ -9,10 +9,15 @@ func _ready() -> void:
 
 	var size = $Sprite2D.texture.get_size()
 	position.x = randf_range(size.x, screen_size.x - size.x)
-	position.y = randf_range(size.y, screen_size.y - size.y)
+	position.y = 0
 
 func _process(delta: float) -> void:
-	position = lerp(position, get_global_mouse_position(), delta)
+	var players = get_tree().get_nodes_in_group("Player")
+	
+	if players:
+		position = lerp(position, players[0].get_global_position(), delta)
+	
+	#rotation += delta
 
 func _on_area_2d_area_entered(_area: Area2D) -> void:
 	emit_signal("enemy_died", self)
