@@ -1,0 +1,36 @@
+[gd_scene load_steps=4 format=3 uid="uid://dyx2ahtopf24g"]
+
+[ext_resource type="PackedScene" uid="uid://kn4un6yv7630" path="res://scenes/base/view/view.tscn" id="1"]
+[ext_resource type="Script" path="res://scenes/views/game/game.gd" id="2"]
+[ext_resource type="AudioStream" uid="uid://dl5x1viertlhr" path="res://scenes/views/game/house_in_forest_loop.ogg" id="3"]
+
+[node name="Game" instance=ExtResource("1")]
+script = ExtResource("2")
+
+[node name="Menu" type="CenterContainer" parent="CanvasLayer" index="0"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Menu" index="0"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Menu/VBoxContainer" index="0"]
+layout_mode = 2
+text = "Levels"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/Menu/VBoxContainer" index="1"]
+layout_mode = 2
+columns = 8
+
+[node name="Back" type="Button" parent="CanvasLayer/Menu/VBoxContainer" index="2"]
+layout_mode = 2
+text = "Main Menu"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." index="1"]
+stream = ExtResource("3")
+
+[connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Back" to="." method="_on_back_pressed"]
