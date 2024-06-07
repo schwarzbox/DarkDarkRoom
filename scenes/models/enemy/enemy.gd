@@ -2,6 +2,8 @@ extends Node2D
 
 signal enemy_died
 
+static var _count: int = 0
+
 func _ready() -> void:
 	prints(name, "ready")
 
@@ -10,6 +12,12 @@ func _ready() -> void:
 	var size = $Sprite2D.texture.get_size()
 	position.x = randf_range(size.x, screen_size.x - size.x)
 	position.y = 0
+	
+	$Sprite2D.modulate = Globals.GLOW_COLORS.HIGH
+	
+	# increase static var
+	_count += 1
+	print_debug(_count)
 
 func _process(delta: float) -> void:
 	var players = get_tree().get_nodes_in_group("Player")
@@ -21,3 +29,7 @@ func _process(delta: float) -> void:
 
 func _on_area_2d_area_entered(_area: Area2D) -> void:
 	emit_signal("enemy_died", self)
+	
+	# decrease static var
+	_count -= 1
+	#print_debug(_count)

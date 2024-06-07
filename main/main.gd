@@ -1,17 +1,16 @@
 extends View
 
 # Remove all Debug calls
-# Set display/window/vsync/vsync_mode to Enabled
-# Set application/run/max_fps to 60
+# Problem with menu texture I want big adaptive screen 
+# reset labirinth 
 
 var _views: Array = []
-var _views_scenes = [
-	preload("res://scenes/views/game/game.tscn"),
-	preload("res://scenes/views/settings/settings.tscn")
-]
+var _views_scenes: Array[PackedScene] = [Globals.GAME_SCENE, Globals.SETTINGS_SCENE]
 
 func _ready() -> void:
 	prints(name, "ready")
+	
+	_center_window_on_screen()
 
 	for node in [
 		$CanvasLayer/Menu/VBoxContainer/Game,
@@ -26,6 +25,22 @@ func _ready() -> void:
 	connect("tree_exiting", self._on_main_exited)
 
 	_setup()
+	
+func _center_window_on_screen() -> void:
+	var window: Window = get_window()
+	var window_id: int = window.get_window_id()
+	var display_id: int  = DisplayServer.window_get_current_screen(window_id)
+
+	var window_size: Vector2i = window.get_size_with_decorations()
+	var display_size: Vector2i = DisplayServer.screen_get_size(display_id)
+	var window_position: Vector2i = (display_size / 2) - (window_size /2)
+	window.position = window_position
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_SCENE_INSTANTIATED:
+		prints("_notification", what)
+
 
 func _setup() -> void:
 	_views.clear()
@@ -45,14 +60,14 @@ func _start(view: Node) -> void:
 		$CanvasLayer.hide()
 
 func _on_game_pressed() -> void:
-	_set_transition(_start, _views[0])
+	await _set_transition(_start, _views[0])
 
 func _on_settings_pressed() -> void:
-	_set_transition(_start, _views[1])
+	await _set_transition(_start, _views[1])
 
 func _on_view_exited(view: Node) -> void:
 	view.queue_free()
-	_set_transition(_setup)
+	await _set_transition(_setup)
 
 func _on_exit_pressed() -> void:
 	get_tree().quit()

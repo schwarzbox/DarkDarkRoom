@@ -1,6 +1,5 @@
 extends View
 
-const PLAYER_SCENE: PackedScene = preload("res://scenes/models/player/player.tscn")
 var player: Node2D = null
 
 var LABIRINTH_SCENE: PackedScene = preload("res://scenes/views/game/labirinth/labirinth.tscn")
@@ -22,9 +21,10 @@ func _ready() -> void:
 	_setup()
 
 func _setup() -> void:
-	player = PLAYER_SCENE.instantiate()
+	player = Globals.PLAYER_SCENE.instantiate()
 	labirinth = LABIRINTH_SCENE.instantiate()
 	
+	player.connect("bullet_added", labirinth.add_models_child)
 	player.connect("player_died", Callable(labirinth, "_on_player_died"))
 
 	labirinth.connect("view_restarted", self._on_view_restarted)
@@ -60,11 +60,11 @@ func _on_view_restarted(view: Node) -> void:
 	call_deferred("_start", labirinth)
 
 func _on_view_changed(view: Node) -> void:
-	_set_transition(_change, view)
+	await _set_transition(_change, view)
 
 func _on_view_exited(view: Node) -> void:
 	view.queue_free()
-	_set_transition(_setup)
+	await _set_transition(_setup)
 
 func _on_back_pressed() -> void:
 	emit_signal("view_exited", self)

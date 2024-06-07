@@ -8,6 +8,19 @@ func _ready() -> void:
 	$CanvasLayer/Label.add_theme_font_size_override(
 		"font_size", Globals.FONTS.GAME_FONT_SIZE
 	)
+	
+	# alarm
+	var alarm = (
+		Alarm
+		. new(
+			Globals.ALARM_WAIT_TIME,
+			Globals.FONTS.DEFAULT_FONT_SIZE,
+			Globals.COLORS.ORANGE,
+		)
+	)
+	alarm.connect("timeout", _on_alarm_timeout)
+	$CanvasLayer.add_child(alarm)
+	alarm.start(Globals.ALARM_WAIT_TIME)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey:
@@ -28,6 +41,9 @@ func remove_models_child(child: Node) -> void:
 func next_level(level: int):
 	emit_signal("level_changed", level)
 	$World/Models.generate_enemies()
+
+func _on_alarm_timeout():
+	print_debug("Alarm!")
 
 func _on_models_number_enemies_changed(value: int) -> void:
 	if not is_inside_tree():
