@@ -84,6 +84,7 @@ ui_right_mouse={
 
 [rendering]
 
+renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true
 environment/defaults/default_clear_color=Color(0, 0.00392157, 0.12549, 1)
 viewport/hdr_2d=true

@@ -7,6 +7,11 @@ extends View
 # use physics body enemies
 # gen lab
 
+# upgrade screen
+# game over screen
+
+# settings with gear
+
 var _views: Array = []
 var _views_scenes: Array[PackedScene] = [Globals.GAME_SCENE, Globals.SETTINGS_SCENE]
 
