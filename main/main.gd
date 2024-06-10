@@ -1,8 +1,11 @@
 extends View
 
 # Remove all Debug calls
-# Problem with menu texture I want big adaptive screen 
-# reset labirinth 
+
+# detect not by group player use area2d and distance
+# change BG
+# use physics body enemies
+# gen lab
 
 var _views: Array = []
 var _views_scenes: Array[PackedScene] = [Globals.GAME_SCENE, Globals.SETTINGS_SCENE]
@@ -13,7 +16,7 @@ func _ready() -> void:
 	_center_window_on_screen()
 
 	for node in [
-		$CanvasLayer/Menu/VBoxContainer/Game,
+		$CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer,
 	]:
 		node.add_theme_font_size_override(
 			"font_size", Globals.FONTS.DEFAULT_FONT_SIZE

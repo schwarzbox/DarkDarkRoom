@@ -30,8 +30,8 @@ gdscript/warnings/unused_class_variable=true
 
 [display]
 
-window/size/viewport_width=390
-window/size/viewport_height=683
+window/size/viewport_width=1024
+window/size/viewport_height=768
 
 [gui]
 
@@ -85,5 +85,6 @@ ui_right_mouse={
 [rendering]
 
 textures/vram_compression/import_etc2_astc=true
+environment/defaults/default_clear_color=Color(0, 0.00392157, 0.12549, 1)
 viewport/hdr_2d=true
 environment/default_environment="res://default_env.tres"

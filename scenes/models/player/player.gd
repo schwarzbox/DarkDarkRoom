@@ -2,6 +2,7 @@ extends Node2D
 
 signal bullet_added
 signal player_died
+signal score_changed
 
 @export var type: Globals.Models
 
@@ -15,6 +16,8 @@ var _angular_velocity: float = 0
 var _angular_acceleration: float = 0
 var _hp: int = 32
 
+var _score: int = 0: set = set_score
+
 # separate node?
 var _is_shoot: bool = false
 
@@ -22,12 +25,10 @@ var _is_shoot: bool = false
 
 func _ready() -> void:
 	prints(name, "ready")
-	
-	$Timer.connect("timeout", func(): _is_shoot = false)
-	var screen_size: Vector2 = get_viewport().size
-	add_to_group("Player")
 
-	position = screen_size / 2
+	$Timer.connect("timeout", func(): _is_shoot = false)
+
+	add_to_group("Player")
 	
 	#if _hp > 0:
 		#$Area2D/CollisionShape2D.shape.radius = _hp
@@ -41,6 +42,14 @@ func _process(delta: float) -> void:
 	_vector_mouse_movement(delta)
 
 	_shoot()
+
+func start(pos: Vector2) -> void:
+	position = pos
+	_score = _score
+
+func set_score(value: int) -> void:
+	_score = value
+	emit_signal("score_changed", _score)
 
 func _vector_key_movement(delta: float) -> void:
 	# dump
@@ -102,11 +111,14 @@ func _shoot():
 			_is_shoot = true
 			var bullet = Globals.BULLET_SCENE.instantiate()
 			bullet.start($Marker2D.global_position, _linear_velocity, rotation)
+			bullet.connect("bullet_removed", _on_bullet_removed)
 
 			emit_signal("bullet_added", bullet)
 
 			$Timer.start(Globals.BULLET_DELAY)
-	
+
+func _on_bullet_removed() -> void:
+	_score += 1
 
 func _on_area_2d_area_entered(_area: Area2D) -> void:
 	_hp -= 1

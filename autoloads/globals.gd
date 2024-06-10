@@ -7,6 +7,7 @@ const PLAYER_SCENE: PackedScene = preload("res://scenes/models/player/player.tsc
 const BULLET_SCENE: PackedScene = preload("res://scenes/models/bullet/bullet.tscn")
 
 const GAME_SCENE: PackedScene = preload("res://scenes/views/game/game.tscn")
+const LABIRINTH_SCENE: PackedScene = preload("res://scenes/views/game/labirinth/labirinth.tscn")
 const SETTINGS_SCENE: PackedScene = preload("res://scenes/views/settings/settings.tscn")
 
 

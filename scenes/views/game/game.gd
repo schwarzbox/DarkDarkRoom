@@ -2,7 +2,6 @@ extends View
 
 var player: Node2D = null
 
-var LABIRINTH_SCENE: PackedScene = preload("res://scenes/views/game/labirinth/labirinth.tscn")
 var labirinth: View = null
 var level: int = 0
 
@@ -21,34 +20,43 @@ func _ready() -> void:
 	_setup()
 
 func _setup() -> void:
+	level = 0
+	labirinth = Globals.LABIRINTH_SCENE.instantiate()
 	player = Globals.PLAYER_SCENE.instantiate()
-	labirinth = LABIRINTH_SCENE.instantiate()
-	
-	player.connect("bullet_added", labirinth.add_models_child)
-	player.connect("player_died", Callable(labirinth, "_on_player_died"))
-
-	labirinth.connect("view_restarted", self._on_view_restarted)
-	labirinth.connect("view_changed", self._on_view_changed)
-	labirinth.connect("view_exited", self._on_view_exited)
 		
 	$CanvasLayer.show()
 	$AudioStreamPlayer.play()
 
 func _start(view: Node) -> void:
+	# Setup view
+	level += 1
 	view.add_models_child(player)
+	
+	view.connect("view_restarted", self._on_view_restarted)
+	view.connect("view_changed", self._on_view_changed)
+	view.connect("view_exited", self._on_view_exited)
 	add_world_child(view)
-
+	# Set level because we need this number to generate correct labirinth
+	view.start(level) 
+	
+	# Setup player
+	player.connect("bullet_added", view.add_models_child)
+	player.connect("player_died", view._on_player_died)
+	player.connect("score_changed", view._on_player_score_changed)
+	var screen_size: Vector2 = get_viewport().size
+	player.start(screen_size / 2)
+	
 	if is_world_has_children():
 		$CanvasLayer.hide()
 		$AudioStreamPlayer.stop()
 
 func _change(view: Node) -> void:
-	# save view state
-	view.remove_models_child(player)
 	remove_world_child(view)
+	view.remove_models_child(player)
+	view.queue_free()
+	# initialize new labirinth
+	labirinth = Globals.LABIRINTH_SCENE.instantiate()
 
-	level += 1
-	labirinth.next_level(level)
 	call_deferred("_start", labirinth)
 
 func _on_view_started() -> void:

@@ -17,7 +17,7 @@ func _ready() -> void:
 	
 	# increase static var
 	_count += 1
-	print_debug(_count)
+	#print_debug(_count)
 
 func _process(delta: float) -> void:
 	var players = get_tree().get_nodes_in_group("Player")
