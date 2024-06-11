@@ -13,6 +13,8 @@ const SETTINGS_SCENE: PackedScene = preload("res://scenes/views/settings/setting
 
 enum Models {
 	PLAYER,
+	ENEMY,
+	BULLET
 }
 
 const FONTS: Dictionary = {
@@ -21,7 +23,7 @@ const FONTS: Dictionary = {
 }
 
 const ALARM_WAIT_TIME: int = 60
-const BULLET_DELAY: float = 0.5
+const BULLET_DELAY: float = 0.4
 
 const COLORS: Dictionary = {
 	MAIN = Color("#000120"),

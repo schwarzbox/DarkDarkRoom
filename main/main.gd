@@ -2,11 +2,14 @@ extends View
 
 # Remove all Debug calls
 
-# detect not by group player use area2d and distance
-# change BG
-# use physics body enemies
-# gen lab
+# player movements 
+# relize flock movements
 
+# scale down when hit by bullet
+# move camera
+
+# gen lab
+# with exit and enter
 # upgrade screen
 # game over screen
 

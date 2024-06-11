@@ -1,6 +1,7 @@
 extends View
 
 var _level: int = 0
+var _enemies_per_level: int = 100
 
 func _ready() -> void:
 	prints(name, "ready")
@@ -37,7 +38,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func start(level: int):
 	_level = level
 	$CanvasLayer/VBoxContainer/LevelLabel.text = "Level " + str(_level)
-	$World/Models.generate_enemies($World/Models.get_number_enemies() + _level)
+	$World/Models.generate_enemies(_level * _enemies_per_level)
 
 func add_models_child(child: Node) -> void:
 	$World/Models.add_child(child)

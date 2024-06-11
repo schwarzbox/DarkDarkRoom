@@ -82,9 +82,14 @@ ui_right_mouse={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_1="Player"
+2d_physics/layer_2="Enemy"
+2d_physics/layer_3="Bullet"
+
 [rendering]
 
-renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true
 environment/defaults/default_clear_color=Color(0, 0.00392157, 0.12549, 1)
 viewport/hdr_2d=true

@@ -6,20 +6,16 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_bm6a3"]
 radius = 8.0
 
-[node name="Bullet" type="Node2D"]
+[node name="Bullet" type="AnimatableBody2D"]
+collision_layer = 4
+collision_mask = 2
 script = ExtResource("1_qrskq")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_drr6i")
 
-[node name="Area2D" type="Area2D" parent="."]
-collision_layer = 4
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_bm6a3")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 rect = Rect2(-8, -8, 16, 16)
-
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

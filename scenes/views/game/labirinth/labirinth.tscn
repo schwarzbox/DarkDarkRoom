@@ -19,11 +19,11 @@ script = ExtResource("2_orhx3")
 environment = SubResource("Environment_j58db")
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="." index="1"]
-color = Color(1, 1, 1, 0.94902)
+color = Color(1, 1, 0.941176, 1)
 blend_mode = 1
 
 [node name="TextureRect" type="TextureRect" parent="." index="2"]
-modulate = Color(0, 0.00392157, 0.12549, 1)
+self_modulate = Color(0.666667, 0.666667, 0.666667, 1)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

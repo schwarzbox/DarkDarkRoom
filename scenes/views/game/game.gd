@@ -25,7 +25,7 @@ func _setup() -> void:
 	player = Globals.PLAYER_SCENE.instantiate()
 		
 	$CanvasLayer.show()
-	$AudioStreamPlayer.play()
+	#$AudioStreamPlayer.play()
 
 func _start(view: Node) -> void:
 	# Setup view

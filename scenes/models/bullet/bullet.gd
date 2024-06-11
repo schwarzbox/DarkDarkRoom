@@ -1,12 +1,17 @@
-extends Node2D
+extends AnimatableBody2D
+
+class_name Bullet
 
 signal bullet_removed
+
+@export var type: Globals.Models = Globals.Models.BULLET
 
 var _force: int = 512
 var _linear_velocity: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
 	prints(name, "ready")
+	sync_to_physics = false
 	
 	$Sprite2D.modulate = Globals.GLOW_COLORS.MIDDLE
 
@@ -15,8 +20,15 @@ func _process(delta: float) -> void:
 	_linear_velocity -= _linear_velocity * delta
 
 	# move
-	position += _linear_velocity * delta
+	var collision = move_and_collide(_linear_velocity * delta)
+	# collide
+	if collision:
+		var collider = collision.get_collider()
+		if is_instance_of(collider, Enemy):
+			hit()
+			collider.hit()
 	
+	# destroy
 	if _linear_velocity.length_squared() < 2:
 		queue_free()
 
@@ -25,10 +37,9 @@ func start(pos: Vector2, other_vel: Vector2, dir: float) -> void:
 	rotation = dir
 	_linear_velocity = (other_vel + Vector2(_force, 0)).rotated(rotation)
 
-func _on_area_2d_area_entered(area: Area2D) -> void:
+func hit() -> void:
 	emit_signal("bullet_removed")
 	queue_free()
-	
 	
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	queue_free()
