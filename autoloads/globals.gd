@@ -23,7 +23,7 @@ const FONTS: Dictionary = {
 }
 
 const ALARM_WAIT_TIME: int = 60
-const BULLET_DELAY: float = 0.4
+const BULLET_DELAY: float = 0.1
 
 const COLORS: Dictionary = {
 	MAIN = Color("#000120"),

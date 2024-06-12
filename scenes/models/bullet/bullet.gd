@@ -6,7 +6,7 @@ signal bullet_removed
 
 @export var type: Globals.Models = Globals.Models.BULLET
 
-var _force: int = 512
+var _force: int = 1024
 var _linear_velocity: Vector2 = Vector2.ZERO
 
 func _ready() -> void:

@@ -5,6 +5,8 @@ extends View
 # player movements 
 # relize flock movements
 
+# hide cursor?
+
 # scale down when hit by bullet
 # move camera
 

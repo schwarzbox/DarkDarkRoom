@@ -51,4 +51,7 @@ text = "Enemies"
 script = ExtResource("3_qdkl7")
 _enemy_scene = ExtResource("4_kecu7")
 
+[node name="Timer" type="Timer" parent="World/Models" index="0"]
+wait_time = 0.2
+
 [connection signal="number_enemies_changed" from="World/Models" to="." method="_on_models_number_enemies_changed"]

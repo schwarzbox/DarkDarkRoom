@@ -1,7 +1,7 @@
 extends View
 
 var _level: int = 0
-var _enemies_per_level: int = 100
+var _enemies_per_level: int = 50
 
 func _ready() -> void:
 	prints(name, "ready")

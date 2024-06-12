@@ -6,7 +6,7 @@ signal enemy_died
 
 @export var type: Globals.Models = Globals.Models.ENEMY
 
-var _force: int = 256
+var _force: int = 96
 #var _torque: float = 2.5
 
 var _linear_velocity: Vector2 = Vector2.ZERO
@@ -16,6 +16,7 @@ var _linear_acceleration: Vector2 = Vector2.ZERO
 #var _angular_acceleration: float = 0
 
 var _target: Player
+var _closest: Dictionary = {}
 
 static var _count: int = 0
 
@@ -29,11 +30,17 @@ func _ready() -> void:
 	_count += 1
 	#print_debug(_count)
 
+func steer(value: Vector2, steer_force):
+	var steer = value.normalized() * _force - _linear_velocity
+	return steer.normalized() * steer_force
+
 func _process(delta: float) -> void:
+	
 	# dump
 	_linear_velocity -= _linear_velocity * delta
 	#_angular_velocity -= _angular_velocity * delta
-	
+	#var screen_size: Vector2 = get_viewport().size
+	#var angle = global_position.angle_to_point(screen_size / 2)
 	if _target:
 		# use velocity
 		var angle = global_position.angle_to_point(_target.get_global_position())
@@ -45,7 +52,6 @@ func _process(delta: float) -> void:
 		rotation = lerp_angle(rotation, angle, 1.0)
 		_linear_acceleration += Vector2(_force, 0).rotated(rotation)
 
-
 	_linear_velocity += _linear_acceleration * delta
 	#_angular_velocity += _angular_acceleration * delta
 
@@ -54,13 +60,9 @@ func _process(delta: float) -> void:
 	#_angular_acceleration = 0
 
 	# move
-	var collision = move_and_collide(_linear_velocity * delta)
-	# collide
-	if collision:
-		var collider = collision.get_collider()
-		if is_instance_of(collider, Enemy):
-			_linear_velocity = _linear_velocity.bounce(collision.get_normal())
-		
+	# warning-ignore:return_value_discarded
+	move_and_collide(_linear_velocity * delta)
+
 	# rotate
 	#rotation += _angular_velocity * delta
 
@@ -73,8 +75,6 @@ func hit() -> void:
 	_count -= 1
 	#print_debug(_count)
 
-func apply_force(value: Vector2) -> void:
-	_linear_acceleration += (value * _force)
 
 func _on_target_range_body_entered(body: Player) -> void:
 	# only Player
@@ -86,11 +86,12 @@ func _on_target_range_body_exited(body: Player) -> void:
 	_target = null
 
 
-func _on_follow_range_body_entered(body: Enemy)-> void:
-	pass
-	#print(body)
 
+func _on_separation_range_body_entered(body: Enemy):
+	if body != self:
+		_closest[body.get_instance_id()] = body
 
-func _on_follow_range_body_exited(body: Enemy)-> void:
-	pass
-	#print("exit", body)
+func _on_separation_range_body_exited(body: Enemy):
+	if body != self:
+		_closest.erase(body.get_instance_id())
+	
