@@ -1,9 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://bqdg2idsev2if"]
+[gd_scene load_steps=6 format=3 uid="uid://bqdg2idsev2if"]
 
 [ext_resource type="PackedScene" uid="uid://kn4un6yv7630" path="res://scenes/base/view/view.tscn" id="1_k01ea"]
 [ext_resource type="Script" path="res://scenes/views/game/labirinth/labirinth.gd" id="2_orhx3"]
 [ext_resource type="Script" path="res://scenes/views/game/labirinth/models.gd" id="3_qdkl7"]
-[ext_resource type="PackedScene" uid="uid://vbjphhnejpr8" path="res://scenes/models/enemy/enemy.tscn" id="4_kecu7"]
 
 [sub_resource type="Environment" id="Environment_j58db"]
 background_mode = 3
@@ -49,9 +48,7 @@ text = "Enemies"
 
 [node name="Models" type="Node2D" parent="World" index="0"]
 script = ExtResource("3_qdkl7")
-_enemy_scene = ExtResource("4_kecu7")
 
-[node name="Timer" type="Timer" parent="World/Models" index="0"]
-wait_time = 0.2
+[node name="EnemyTimer" type="Timer" parent="World/Models" index="0"]
 
 [connection signal="number_enemies_changed" from="World/Models" to="." method="_on_models_number_enemies_changed"]

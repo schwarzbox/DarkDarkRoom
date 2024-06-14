@@ -28,23 +28,13 @@ func _setup() -> void:
 	#$AudioStreamPlayer.play()
 
 func _start(view: Node) -> void:
-	# Setup view
 	level += 1
-	view.add_models_child(player)
-	
 	view.connect("view_restarted", self._on_view_restarted)
 	view.connect("view_changed", self._on_view_changed)
 	view.connect("view_exited", self._on_view_exited)
 	add_world_child(view)
-	# Set level because we need this number to generate correct labirinth
-	view.start(level) 
-	
-	# Setup player
-	player.connect("bullet_added", view.add_models_child)
-	player.connect("player_died", view._on_player_died)
-	player.connect("score_changed", view._on_player_score_changed)
-	var screen_size: Vector2 = get_viewport().size
-	player.start(screen_size / 2)
+	# player setup in view
+	view.start(level, player) 
 	
 	if is_world_has_children():
 		$CanvasLayer.hide()

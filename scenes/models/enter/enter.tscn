@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://b1th44r0foere"]
+
+[ext_resource type="Script" path="res://scenes/models/enter/enter.gd" id="1_7pflj"]
+[ext_resource type="Texture2D" uid="uid://cmdka700df11u" path="res://scenes/models/enter/enter.png" id="1_e0om5"]
+
+[node name="Enter" type="Node2D"]
+script = ExtResource("1_7pflj")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_e0om5")

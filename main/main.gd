@@ -2,20 +2,17 @@ extends View
 
 # Remove all Debug calls
 
+# gen lab
+# rotation
 # player movements 
-# relize flock movements
+# check flock movements
 
-# hide cursor?
+# hide cursor? how to align with actual movement or make it with tween
 
-# scale down when hit by bullet
 # move camera
 
-# gen lab
-# with exit and enter
 # upgrade screen
 # game over screen
-
-# settings with gear
 
 var _views: Array = []
 var _views_scenes: Array[PackedScene] = [Globals.GAME_SCENE, Globals.SETTINGS_SCENE]

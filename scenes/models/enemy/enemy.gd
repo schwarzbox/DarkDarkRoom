@@ -6,7 +6,9 @@ signal enemy_died
 
 @export var type: Globals.Models = Globals.Models.ENEMY
 
-var _force: int = 96
+var sprite_size: Vector2
+
+var _force: int = 128
 #var _torque: float = 2.5
 
 var _linear_velocity: Vector2 = Vector2.ZERO
@@ -14,7 +16,7 @@ var _linear_acceleration: Vector2 = Vector2.ZERO
 
 #var _angular_velocity: float = 0
 #var _angular_acceleration: float = 0
-
+var _died: bool = false
 var _target: Player
 var _closest: Dictionary = {}
 
@@ -23,8 +25,10 @@ static var _count: int = 0
 func _ready() -> void:
 	prints(name, "ready")
 	sync_to_physics = false
-	add_to_group("Enemy")
 
+	add_to_group("Enemy")
+	
+	sprite_size = $Sprite2D.texture.get_size()
 	$Sprite2D.modulate = Globals.GLOW_COLORS.HIGH
 	
 	_count += 1
@@ -61,7 +65,8 @@ func _process(delta: float) -> void:
 
 	# move
 	# warning-ignore:return_value_discarded
-	move_and_collide(_linear_velocity * delta)
+	if not _died:
+		move_and_collide(_linear_velocity * delta)
 
 	# rotate
 	#rotation += _angular_velocity * delta
@@ -70,9 +75,14 @@ func start(pos: Vector2) -> void:
 	position = pos
 
 func hit() -> void:
-	emit_signal("enemy_died", self)
-	
-	_count -= 1
+	_died = true
+	var tween = create_tween()
+	tween.tween_property(self, "scale", Vector2(0, 0), Globals.SCALE_DOWN_DELAY)
+	tween.tween_callback(
+		func(): 
+			emit_signal("enemy_died", self)
+			_count -= 1
+	)
 	#print_debug(_count)
 
 
@@ -84,7 +94,6 @@ func _on_target_range_body_entered(body: Player) -> void:
 func _on_target_range_body_exited(body: Player) -> void:
 	# only Player
 	_target = null
-
 
 
 func _on_separation_range_body_entered(body: Enemy):

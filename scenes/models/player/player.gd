@@ -4,9 +4,12 @@ class_name Player
 
 signal bullet_added
 signal player_died
+signal player_won
 signal score_changed
 
 @export var type: Globals.Models = Globals.Models.PLAYER
+
+var sprite_size: Vector2
 
 var _force: int = 256
 var _torque: float = 2.5
@@ -34,29 +37,28 @@ func _ready() -> void:
 	sync_to_physics = false
 
 	$Timer.connect("timeout", func(): _is_shoot = false)
-
+	
+	sprite_size = $Sprite2D.texture.get_size()
+	$Sprite2D.modulate = Globals.GLOW_COLORS.MIDDLE
+	
 	#$AnimationPlayer.play("idle")
 	
-	#$Sprite2D.modulate = Globals.GLOW_COLORS.MIDDLE
 
 func _process(delta: float) -> void:
 	# dump
 	_linear_velocity -= _linear_velocity * delta
 
 	if Input.is_action_pressed("ui_up"):
-		_linear_acceleration += Vector2(_force, 0).rotated(rotation)
+		_linear_acceleration += Vector2(1, 0).rotated(rotation)
 	if Input.is_action_pressed("ui_down"):
-		_linear_acceleration -= Vector2(_force / 2, 0).rotated(rotation)
-	#if Input.is_action_pressed("ui_right"):
-		#_linear_acceleration += Vector2( _force, 0)
-	#if Input.is_action_pressed("ui_left"):
-		#_linear_acceleration -= Vector2( _force, 0)
-	#if Input.is_action_pressed("ui_right"):
-		#_angular_acceleration += _torque
-	#if Input.is_action_pressed("ui_left"):
-		#_angular_acceleration -= _torque
+		_linear_acceleration -= Vector2(1, 0).rotated(rotation)
+	if Input.is_action_pressed("ui_right"):
+		_linear_acceleration += Vector2(0, 1).rotated(rotation)
+	if Input.is_action_pressed("ui_left"):
+		_linear_acceleration -= Vector2(0, 1).rotated(rotation)
 
-	_linear_velocity += _linear_acceleration * delta
+	_linear_velocity += _linear_acceleration.normalized() * _force * delta
+
 
 #	reset
 	_linear_acceleration = Vector2()
@@ -72,7 +74,7 @@ func _process(delta: float) -> void:
 	# rotate
 	var dir = get_global_mouse_position() - global_position
 
-	if dir.length() > 5:
+	if dir.length() > sprite_size.x:
 		rotation = dir.angle()
 
 	_shoot()
@@ -88,6 +90,9 @@ func hit() -> void:
 		emit_signal("player_died")
 	else:
 		set_shape()
+		
+func win() -> void:
+	emit_signal("player_won")
 
 func set_shape() -> void:
 	if _tween:
@@ -95,7 +100,9 @@ func set_shape() -> void:
 		
 	_tween = create_tween()
 	var diff: float = float(_hp) / float(_max_hp)
-	_tween.tween_property(self, "scale", Vector2(diff, diff), 0.4)
+	_tween.tween_property(
+		self, "scale", Vector2(diff, diff), Globals.PLAYER_SCALE_DOWN_DELAY
+	)
 
 func set_score(value: int) -> void:
 	_score = value
