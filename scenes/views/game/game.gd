@@ -14,7 +14,7 @@ func _ready() -> void:
 		$CanvasLayer/Menu/VBoxContainer/Back
 	]:
 		node.add_theme_font_size_override(
-			"font_size", Globals.FONTS.DEFAULT_FONT_SIZE
+			"font_size", Globals.FONTS.MEDIUM_FONT_SIZE
 		)
 
 	_setup()
@@ -23,22 +23,26 @@ func _setup() -> void:
 	level = 0
 	labirinth = Globals.LABIRINTH_SCENE.instantiate()
 	player = Globals.PLAYER_SCENE.instantiate()
-		
+
 	$CanvasLayer.show()
 	#$AudioStreamPlayer.play()
+	if level == 0:
+		_start(labirinth)
 
 func _start(view: Node) -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+
 	level += 1
 	view.connect("view_restarted", self._on_view_restarted)
 	view.connect("view_changed", self._on_view_changed)
 	view.connect("view_exited", self._on_view_exited)
 	add_world_child(view)
 	# player setup in view
-	view.start(level, player) 
-	
+	view.start(level, player)
+
 	if is_world_has_children():
 		$CanvasLayer.hide()
-		$AudioStreamPlayer.stop()
+		#$AudioStreamPlayer.stop()
 
 func _change(view: Node) -> void:
 	remove_world_child(view)
@@ -58,11 +62,15 @@ func _on_view_restarted(view: Node) -> void:
 	call_deferred("_start", labirinth)
 
 func _on_view_changed(view: Node) -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	await _set_transition(_change, view)
 
 func _on_view_exited(view: Node) -> void:
-	view.queue_free()
-	await _set_transition(_setup)
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	#view.queue_free()
+	#await _set_transition(_setup)
+	emit_signal("view_exited", self)
 
 func _on_back_pressed() -> void:
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	emit_signal("view_exited", self)

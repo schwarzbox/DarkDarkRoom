@@ -13,7 +13,7 @@ var _died: bool = false
 func _ready() -> void:
 	prints(name, "ready")
 	sync_to_physics = false
-	
+
 	$Sprite2D.modulate = Globals.GLOW_COLORS.MIDDLE
 
 func _process(delta: float) -> void:
@@ -29,7 +29,9 @@ func _process(delta: float) -> void:
 			if is_instance_of(collider, Enemy):
 				hit()
 				collider.hit()
-	
+			if is_instance_of(collider, Wall):
+				hit()
+
 	# destroy
 	if _linear_velocity.length_squared() < 16:
 		queue_free()
@@ -44,12 +46,12 @@ func hit() -> void:
 	var tween = create_tween()
 	tween.tween_property(self, "scale", Vector2(0, 0), Globals.SCALE_DOWN_DELAY)
 	tween.tween_callback(
-		func(): 
+		func():
 			emit_signal("bullet_removed")
 			queue_free()
 	)
-	
-	
+
+
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
 	queue_free()
 

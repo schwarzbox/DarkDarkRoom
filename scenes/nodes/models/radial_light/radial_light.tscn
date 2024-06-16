@@ -9,8 +9,8 @@ colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_rrk3o"]
 gradient = SubResource("Gradient_irw8j")
-width = 96
-height = 96
+width = 256
+height = 256
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
@@ -19,5 +19,6 @@ script = ExtResource("1_2h38i")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 blend_mode = 2
-shadow_color = Color(0, 0, 0, 0.501961)
+shadow_enabled = true
+shadow_color = Color(0, 0, 0, 0.25098)
 texture = SubResource("GradientTexture2D_rrk3o")

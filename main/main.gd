@@ -2,14 +2,15 @@ extends View
 
 # Remove all Debug calls
 
-# gen lab
-# rotation
-# player movements 
+# add noise animation
+
+# player movements
+# remove bounce player
+
+# rotation enemy random rewrite
 # check flock movements
 
 # hide cursor? how to align with actual movement or make it with tween
-
-# move camera
 
 # upgrade screen
 # game over screen
@@ -19,14 +20,14 @@ var _views_scenes: Array[PackedScene] = [Globals.GAME_SCENE, Globals.SETTINGS_SC
 
 func _ready() -> void:
 	prints(name, "ready")
-	
+
 	_center_window_on_screen()
 
 	for node in [
 		$CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer,
 	]:
 		node.add_theme_font_size_override(
-			"font_size", Globals.FONTS.DEFAULT_FONT_SIZE
+			"font_size", Globals.FONTS.LARGE_FONT_SIZE
 		)
 
 	randomize()
@@ -35,7 +36,7 @@ func _ready() -> void:
 	connect("tree_exiting", self._on_main_exited)
 
 	_setup()
-	
+
 func _center_window_on_screen() -> void:
 	var window: Window = get_window()
 	var window_id: int = window.get_window_id()

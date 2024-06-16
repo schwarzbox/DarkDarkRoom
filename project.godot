@@ -87,10 +87,11 @@ ui_right_mouse={
 2d_physics/layer_1="Player"
 2d_physics/layer_2="Enemy"
 2d_physics/layer_3="Bullet"
+2d_physics/layer_4="Wall"
 
 [rendering]
 
 textures/vram_compression/import_etc2_astc=true
-environment/defaults/default_clear_color=Color(0, 0.00392157, 0.12549, 1)
+environment/defaults/default_clear_color=Color(0, 0.00392157, 0, 1)
 viewport/hdr_2d=true
 environment/default_environment="res://default_env.tres"

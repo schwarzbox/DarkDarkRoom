@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dyx2ahtopf24g"]
+[gd_scene load_steps=3 format=3 uid="uid://dyx2ahtopf24g"]
 
 [ext_resource type="PackedScene" uid="uid://kn4un6yv7630" path="res://scenes/base/view/view.tscn" id="1"]
 [ext_resource type="Script" path="res://scenes/views/game/game.gd" id="2"]
-[ext_resource type="AudioStream" uid="uid://dl5x1viertlhr" path="res://scenes/views/game/house_in_forest_loop.ogg" id="3"]
 
 [node name="Game" instance=ExtResource("1")]
 script = ExtResource("2")
@@ -29,9 +28,6 @@ text = "Generate"
 [node name="Back" type="Button" parent="CanvasLayer/Menu/VBoxContainer" index="2"]
 layout_mode = 2
 text = "Main Menu"
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." index="1"]
-stream = ExtResource("3")
 
 [connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Button" to="." method="_on_view_started"]
 [connection signal="pressed" from="CanvasLayer/Menu/VBoxContainer/Back" to="." method="_on_back_pressed"]

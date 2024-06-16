@@ -37,12 +37,12 @@ func _ready() -> void:
 	sync_to_physics = false
 
 	$Timer.connect("timeout", func(): _is_shoot = false)
-	
+
 	sprite_size = $Sprite2D.texture.get_size()
 	$Sprite2D.modulate = Globals.GLOW_COLORS.MIDDLE
-	
+
 	#$AnimationPlayer.play("idle")
-	
+
 
 func _process(delta: float) -> void:
 	# dump
@@ -52,10 +52,10 @@ func _process(delta: float) -> void:
 		_linear_acceleration += Vector2(1, 0).rotated(rotation)
 	if Input.is_action_pressed("ui_down"):
 		_linear_acceleration -= Vector2(1, 0).rotated(rotation)
-	if Input.is_action_pressed("ui_right"):
-		_linear_acceleration += Vector2(0, 1).rotated(rotation)
-	if Input.is_action_pressed("ui_left"):
-		_linear_acceleration -= Vector2(0, 1).rotated(rotation)
+	#if Input.is_action_pressed("ui_right"):
+		#_linear_acceleration += Vector2(0, 1).rotated(rotation)
+	#if Input.is_action_pressed("ui_left"):
+		#_linear_acceleration -= Vector2(0, 1).rotated(rotation)
 
 	_linear_velocity += _linear_acceleration.normalized() * _force * delta
 
@@ -68,9 +68,12 @@ func _process(delta: float) -> void:
 	if collision:
 		var collider = collision.get_collider()
 		if is_instance_of(collider, Enemy):
-			hit()
-			collider.hit()
-			
+			if not collider._died:
+				hit()
+				collider.hit()
+		if is_instance_of(collider, Wall):
+			_linear_velocity = _linear_velocity.bounce(collision.get_normal()) / 2
+
 	# rotate
 	var dir = get_global_mouse_position() - global_position
 
@@ -83,21 +86,21 @@ func start(pos: Vector2) -> void:
 	position = pos
 	_score = _score
 	set_shape()
-	
+
 func hit() -> void:
 	_hp -= 1
 	if _hp <= _min_hp:
 		emit_signal("player_died")
 	else:
 		set_shape()
-		
+
 func win() -> void:
 	emit_signal("player_won")
 
 func set_shape() -> void:
 	if _tween:
 		_tween.kill()
-		
+
 	_tween = create_tween()
 	var diff: float = float(_hp) / float(_max_hp)
 	_tween.tween_property(
@@ -118,6 +121,7 @@ func _shoot():
 
 			emit_signal("bullet_added", bullet)
 
+			$AudioStreamPlayer2D.play()
 			$Timer.start(Globals.BULLET_DELAY)
 
 func _on_bullet_removed() -> void:
