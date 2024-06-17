@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://bqdg2idsev2if"]
+[gd_scene load_steps=11 format=3 uid="uid://bqdg2idsev2if"]
 
 [ext_resource type="PackedScene" uid="uid://kn4un6yv7630" path="res://scenes/base/view/view.tscn" id="1_k01ea"]
 [ext_resource type="Script" path="res://scenes/views/game/labirinth/labirinth.gd" id="2_orhx3"]
+[ext_resource type="Shader" path="res://shaders/noise.gdshader" id="3_621x1"]
 [ext_resource type="LabelSettings" uid="uid://d2ne7768x728e" path="res://main/label_settings.tres" id="3_lcfbe"]
 [ext_resource type="Script" path="res://scenes/views/game/labirinth/models.gd" id="3_qdkl7"]
 [ext_resource type="AudioStream" uid="uid://bxvg2la4hbx8n" path="res://scenes/views/game/labirinth/arithmetic_logic_unit.mp3" id="5_8hcee"]
@@ -11,12 +12,18 @@ background_mode = 3
 glow_enabled = true
 glow_blend_mode = 0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5y3gc"]
+shader = ExtResource("3_621x1")
+shader_parameter/scrool = Vector2(0, 0.004)
+
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_agm6p"]
 noise_type = 2
-seed = 1
+seed = 4
 frequency = 0.04
+cellular_return_type = 2
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_vqj0m"]
+seamless = true
 noise = SubResource("FastNoiseLite_agm6p")
 
 [node name="Labirinth" instance=ExtResource("1_k01ea")]
@@ -30,11 +37,12 @@ color = Color(1, 1, 0.996078, 1)
 blend_mode = 1
 
 [node name="TextureRect" type="TextureRect" parent="." index="2"]
+material = SubResource("ShaderMaterial_5y3gc")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 3072.0
-offset_bottom = 3328.0
+offset_right = 2048.0
+offset_bottom = 2304.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("NoiseTexture2D_vqj0m")
@@ -53,20 +61,22 @@ text = "Light is Over"
 label_settings = ExtResource("3_lcfbe")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer" index="1"]
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 39.0
+offset_bottom = 38.0
 
 [node name="LevelLabel" type="Label" parent="CanvasLayer/VBoxContainer" index="0"]
 layout_mode = 2
 text = "Level"
 
-[node name="ScoreLabel" type="Label" parent="CanvasLayer/VBoxContainer" index="1"]
+[node name="EnemyLabel" type="Label" parent="CanvasLayer/VBoxContainer" index="1"]
+layout_mode = 2
+text = "Cells
+"
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer/VBoxContainer" index="2"]
+visible = false
 layout_mode = 2
 text = "Score"
-
-[node name="EnemyLabel" type="Label" parent="CanvasLayer/VBoxContainer" index="2"]
-layout_mode = 2
-text = "Enemies"
 
 [node name="Models" type="Node2D" parent="World" index="0"]
 script = ExtResource("3_qdkl7")

@@ -1,13 +1,10 @@
 extends View
 
-# Remove all Debug calls
-
-# add noise animation
+# rotation enemy random rewrite?
 
 # player movements
 # remove bounce player
 
-# rotation enemy random rewrite
 # check flock movements
 
 # hide cursor? how to align with actual movement or make it with tween

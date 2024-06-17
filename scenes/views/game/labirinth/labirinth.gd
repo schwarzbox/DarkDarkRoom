@@ -216,15 +216,15 @@ func _generate_labirinth(caves: int = 3, deadends: int = 2) -> void:
 	#for i: int in range(0, deadends):
 		#_cut_dead_ends()
 
-func _on_alarm_timeout():
-	print_debug("Alarm!")
+#func _on_alarm_timeout():
+	#print_debug("Alarm!")
 
 
 func _on_models_number_enemies_changed(value: int) -> void:
 	#if not is_inside_tree():
 		#await self.ready
 
-	$CanvasLayer/VBoxContainer/EnemyLabel.text = "Enemies " + str(value)
+	$CanvasLayer/VBoxContainer/EnemyLabel.text = "Cells " + str(value)
 
 	#if value == 0:
 		#emit_signal("view_changed", self)
@@ -238,9 +238,10 @@ func _on_player_won() -> void:
 func _on_player_died() -> void:
 	$CanvasLayer/GameOver.show()
 	var tween = create_tween()
-	tween.tween_property($CanvasLayer/GameOver/Label, "modulate:a", 1.0, 4.0)
+	tween.tween_property($CanvasLayer/GameOver/Label, "modulate:a", 1.0, 2.0)
+	tween.tween_property($CanvasLayer/GameOver/Label, "modulate:a", 0.0, 4.0)
 	tween.parallel().tween_property($AudioStreamPlayer, "volume_db", -40, 4.0)
 	tween.tween_callback(
 		func(): emit_signal("view_exited", self)
 	)
-	
+

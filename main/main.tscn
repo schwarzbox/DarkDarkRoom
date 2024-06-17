@@ -20,7 +20,7 @@ grow_vertical = 2
 
 [node name="BG" type="TextureRect" parent="CanvasLayer/CenterContainer" index="0"]
 modulate = Color(0, 0.00392157, 0.12549, 1)
-custom_minimum_size = Vector2(1024, 768)
+custom_minimum_size = Vector2(3072, 2048)
 layout_mode = 2
 texture = SubResource("CanvasTexture_ycap5")
 

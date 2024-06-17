@@ -9,13 +9,13 @@ signal enemy_died
 var sprite_size: Vector2
 
 var _force: int = 128
-#var _torque: float = 2.5
+var _torque: float = 2.5
 
 var _linear_velocity: Vector2 = Vector2.ZERO
 var _linear_acceleration: Vector2 = Vector2.ZERO
+var _angular_velocity: float = 0
+var _angular_acceleration: float = 0
 
-#var _angular_velocity: float = 0
-#var _angular_acceleration: float = 0
 var _died: bool = false
 var _target: Player
 var _closest: Dictionary = {}
@@ -23,7 +23,7 @@ var _closest: Dictionary = {}
 static var _count: int = 0
 
 func _ready() -> void:
-	prints(name, "ready")
+	#prints(name, "ready")
 	sync_to_physics = false
 
 	add_to_group("Enemy")
@@ -39,29 +39,30 @@ func steer(value: Vector2, steer_force):
 	return force.normalized() * steer_force
 
 func _process(delta: float) -> void:
-
 	# dump
 	_linear_velocity -= _linear_velocity * delta
-	#_angular_velocity -= _angular_velocity * delta
+	_angular_velocity -= _angular_velocity * delta
+
 	#var screen_size: Vector2 = get_viewport().size
 	#var angle = global_position.angle_to_point(screen_size / 2)
 	if _target:
 		# use velocity
 		var angle: float = global_position.angle_to_point(_target.get_global_position())
-		# how to use _angular_velocity
 		rotation = lerp_angle(rotation, angle, 1.0)
 		_linear_acceleration += Vector2(_force, 0).rotated(rotation)
 	else:
+		#_linear_acceleration += Vector2(_force, 0).rotated(rotation)
+		#_angular_acceleration += randf_range(-PI, PI) * _torque
 		var angle: float = randf_range(0, TAU)
 		rotation = lerp_angle(rotation, angle, 1.0)
 		_linear_acceleration += Vector2(_force, 0).rotated(rotation)
 
 	_linear_velocity += _linear_acceleration * delta
-	#_angular_velocity += _angular_acceleration * delta
+	_angular_velocity += _angular_acceleration * delta
 
-#	reset
+	#	reset
 	_linear_acceleration = Vector2()
-	#_angular_acceleration = 0
+	_angular_acceleration = 0
 
 	# move
 	# warning-ignore:return_value_discarded
@@ -73,7 +74,7 @@ func _process(delta: float) -> void:
 				_linear_velocity = _linear_velocity.bounce(collision.get_normal())
 
 	# rotate
-	#rotation += _angular_velocity * delta
+	rotation += _angular_velocity * delta
 
 func start(pos: Vector2) -> void:
 	position = pos

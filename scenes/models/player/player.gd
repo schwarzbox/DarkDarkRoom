@@ -50,8 +50,13 @@ func _process(delta: float) -> void:
 
 	if Input.is_action_pressed("ui_up"):
 		_linear_acceleration += Vector2(1, 0).rotated(rotation)
-	if Input.is_action_pressed("ui_down"):
+		$Camera2D.position = Vector2(512, 0)
+	elif Input.is_action_pressed("ui_down"):
 		_linear_acceleration -= Vector2(1, 0).rotated(rotation)
+		$Camera2D.position = Vector2(0, 0)
+	else:
+		$Camera2D.position = Vector2(0, 0)
+
 	#if Input.is_action_pressed("ui_right"):
 		#_linear_acceleration += Vector2(0, 1).rotated(rotation)
 	#if Input.is_action_pressed("ui_left"):

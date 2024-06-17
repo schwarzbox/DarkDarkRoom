@@ -11,7 +11,7 @@ var _linear_velocity: Vector2 = Vector2.ZERO
 var _died: bool = false
 
 func _ready() -> void:
-	prints(name, "ready")
+	#prints(name, "ready")
 	sync_to_physics = false
 
 	$Sprite2D.modulate = Globals.GLOW_COLORS.MIDDLE
