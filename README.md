@@ -10,11 +10,14 @@ Code: [Aliaksandr Veledzimovich](https://twitter.com/veledzimovich)
 
 ![Screenshot](screenshot/screenshot1.png)
 
-Controls:
+### Controls:
 
 ESC - exit
+
 P - pause
 
 W - forward
+
 S - backward
+
 Mouse - direction
