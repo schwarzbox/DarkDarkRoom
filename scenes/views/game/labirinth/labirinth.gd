@@ -1,12 +1,12 @@
 extends View
 
-var _alarm: Alarm
+#var _alarm: Alarm
 
 var _level: int = 0
-var _enemies_per_level: int = 100
+var _enemies_per_level: int = 50
 
-var _lab_wid: int = 16
-var _lab_hei: int = 16
+var _lab_wid: int = 12
+var _lab_hei: int = 12
 var _lab_tile_size: Vector2 = Vector2(128, 128)
 var _map: Array[Array]
 
@@ -17,21 +17,21 @@ func _ready() -> void:
 
 	for node in $CanvasLayer/VBoxContainer.get_children():
 		node.add_theme_font_size_override(
-			"font_size", Globals.FONTS.SMALL_FONT_SIZE
+			"font_size", Globals.FONTS.EXTRA_FONT_SIZE
 		)
 
 	# alarm
-	_alarm = (
-		Alarm
-		. new(
-			Globals.ALARM_WAIT_TIME,
-			Globals.FONTS.SMALL_FONT_SIZE,
-			Globals.COLORS.ORANGE,
-		)
-	)
-	_alarm.connect("timeout", _on_alarm_timeout)
-	$CanvasLayer.add_child(_alarm)
-	_alarm.start(Globals.ALARM_WAIT_TIME)
+	#_alarm = (
+		#Alarm
+		#. new(
+			#Globals.ALARM_WAIT_TIME,
+			#Globals.FONTS.SMALL_FONT_SIZE,
+			#Globals.COLORS.ORANGE,
+		#)
+	#)
+	#_alarm.connect("timeout", _on_alarm_timeout)
+	#$CanvasLayzer.add_child(_alarm)
+	#_alarm.start(Globals.ALARM_WAIT_TIME)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey:
@@ -45,10 +45,10 @@ func _unhandled_input(event: InputEvent) -> void:
 				get_tree().paused = not get_tree().paused
 				if get_tree().paused:
 					$AudioStreamPlayer.stop()
-					_alarm.pause()
+					#_alarm.pause()
 				else:
 					$AudioStreamPlayer.play()
-					_alarm.resume()
+					#_alarm.resume()
 
 func add_models_child(child: Node) -> void:
 	$World/Models.add_child(child)
@@ -236,4 +236,11 @@ func _on_player_won() -> void:
 	emit_signal("view_changed", self)
 
 func _on_player_died() -> void:
-	emit_signal("view_exited", self)
+	$CanvasLayer/GameOver.show()
+	var tween = create_tween()
+	tween.tween_property($CanvasLayer/GameOver/Label, "modulate:a", 1.0, 4.0)
+	tween.parallel().tween_property($AudioStreamPlayer, "volume_db", -40, 4.0)
+	tween.tween_callback(
+		func(): emit_signal("view_exited", self)
+	)
+	

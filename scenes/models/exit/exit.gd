@@ -5,6 +5,8 @@ class_name Exit
 
 func start(pos: Vector2) -> void:
 	position = pos
+	
+	$Sprite2D.modulate = Globals.COLORS.BLACK
 
 func _process(delta: float) -> void:
 	var enemies = get_tree().get_nodes_in_group("Enemy")

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scenes/models/enemy/enemy.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://d16xed2sp00ac" path="res://scenes/models/enemy/enemy.png" id="2_nvvsd"]
-[ext_resource type="AudioStream" uid="uid://syjuo3bt2l04" path="res://scenes/models/enemy/dead.wav" id="3_bmb2i"]
+[ext_resource type="AudioStream" uid="uid://syjuo3bt2l04" path="res://scenes/models/enemy/dead.wav" id="3_h2p2w"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_svo1m"]
 radius = 8.0
@@ -42,7 +42,8 @@ shape = SubResource("CircleShape2D_8jpts")
 debug_color = Color(0.81355, 0.407356, 0.0846931, 0.42)
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_bmb2i")
+stream = ExtResource("3_h2p2w")
+volume_db = -2.0
 
 [connection signal="body_entered" from="TargetRange" to="." method="_on_target_range_body_entered"]
 [connection signal="body_exited" from="TargetRange" to="." method="_on_target_range_body_exited"]

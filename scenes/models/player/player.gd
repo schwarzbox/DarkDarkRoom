@@ -22,7 +22,7 @@ var _angular_acceleration: float = 0
 var _hp: int = 32
 var _min_hp: int = 8
 var _max_hp: int = 32
-
+var _died: bool = false
 var _score: int = 0: set = set_score
 
 # separate node?
@@ -68,9 +68,9 @@ func _process(delta: float) -> void:
 	if collision:
 		var collider = collision.get_collider()
 		if is_instance_of(collider, Enemy):
-			if not collider._died:
-				hit()
+			if !_died && !collider._died:
 				collider.hit()
+				hit()
 		if is_instance_of(collider, Wall):
 			_linear_velocity = _linear_velocity.bounce(collision.get_normal()) / 2
 
@@ -89,7 +89,9 @@ func start(pos: Vector2) -> void:
 
 func hit() -> void:
 	_hp -= 1
-	if _hp <= _min_hp:
+	if !_died and _hp <= _min_hp:
+		_died = true
+		hide()
 		emit_signal("player_died")
 	else:
 		set_shape()

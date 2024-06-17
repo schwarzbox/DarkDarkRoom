@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://b3c5ruwhmbir3" path="res://scenes/models/player/player.png" id="2_nu12e"]
 [ext_resource type="PackedScene" uid="uid://cimvxxl6pjyt0" path="res://scenes/nodes/models/radial_light/radial_light.tscn" id="3_w3f5t"]
 [ext_resource type="PackedScene" uid="uid://cctv8e2rhaaqw" path="res://scenes/nodes/models/cone_light/cone_light.tscn" id="4_j1jpt"]
-[ext_resource type="AudioStream" uid="uid://dvwors8me5xmg" path="res://scenes/models/player/shoot.wav" id="5_5bjjf"]
+[ext_resource type="AudioStream" uid="uid://dvwors8me5xmg" path="res://scenes/models/player/shoot.wav" id="5_rt5ve"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_5kn0q"]
 radius = 32.0
@@ -73,4 +73,4 @@ libraries = {
 [node name="Timer" type="Timer" parent="."]
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("5_5bjjf")
+stream = ExtResource("5_rt5ve")

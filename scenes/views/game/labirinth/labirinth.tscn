@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://bqdg2idsev2if"]
+[gd_scene load_steps=9 format=3 uid="uid://bqdg2idsev2if"]
 
 [ext_resource type="PackedScene" uid="uid://kn4un6yv7630" path="res://scenes/base/view/view.tscn" id="1_k01ea"]
 [ext_resource type="Script" path="res://scenes/views/game/labirinth/labirinth.gd" id="2_orhx3"]
+[ext_resource type="LabelSettings" uid="uid://d2ne7768x728e" path="res://main/label_settings.tres" id="3_lcfbe"]
 [ext_resource type="Script" path="res://scenes/views/game/labirinth/models.gd" id="3_qdkl7"]
-[ext_resource type="AudioStream" uid="uid://bxvg2la4hbx8n" path="res://scenes/views/game/labirinth/arithmetic_logic_unit.mp3" id="4_8djvr"]
+[ext_resource type="AudioStream" uid="uid://bxvg2la4hbx8n" path="res://scenes/views/game/labirinth/arithmetic_logic_unit.mp3" id="5_8hcee"]
 
 [sub_resource type="Environment" id="Environment_j58db"]
 background_mode = 3
@@ -38,7 +39,20 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("NoiseTexture2D_vqj0m")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer" index="0"]
+[node name="GameOver" type="CenterContainer" parent="CanvasLayer" index="0"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/GameOver" index="0"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+text = "Light is Over"
+label_settings = ExtResource("3_lcfbe")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer" index="1"]
 offset_right = 40.0
 offset_bottom = 40.0
 
@@ -60,7 +74,7 @@ script = ExtResource("3_qdkl7")
 [node name="EnemyTimer" type="Timer" parent="World/Models" index="0"]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." index="5"]
-stream = ExtResource("4_8djvr")
+stream = ExtResource("5_8hcee")
 volume_db = -4.0
 
 [connection signal="number_enemies_changed" from="World/Models" to="." method="_on_models_number_enemies_changed"]

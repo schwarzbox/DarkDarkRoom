@@ -24,6 +24,7 @@ enum Models {
 }
 
 const FONTS: Dictionary = {
+	EXTRA_FONT_SIZE = 16,
 	SMALL_FONT_SIZE = 32,
 	MEDIUM_FONT_SIZE = 64,
 	LARGE_FONT_SIZE = 128,
