@@ -3,11 +3,11 @@ extends View
 # rotation enemy random rewrite?
 
 # player movements
-# remove bounce player
+# player rotation
+# how to align with actual movement or make it with tween
 
 # check flock movements
 
-# hide cursor? how to align with actual movement or make it with tween
 
 # upgrade screen
 # game over screen

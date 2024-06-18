@@ -19,6 +19,8 @@ func _ready() -> void:
 		node.add_theme_font_size_override(
 			"font_size", Globals.FONTS.EXTRA_FONT_SIZE
 		)
+	$CanvasLayer/GameOver.hide()
+	$CanvasLayer/GameOver/Label.modulate.a = 0.0
 
 	# alarm
 	#_alarm = (
@@ -236,11 +238,12 @@ func _on_player_won() -> void:
 	emit_signal("view_changed", self)
 
 func _on_player_died() -> void:
+	$CanvasLayer/VBoxContainer.hide()
 	$CanvasLayer/GameOver.show()
 	var tween = create_tween()
 	tween.tween_property($CanvasLayer/GameOver/Label, "modulate:a", 1.0, 2.0)
-	tween.tween_property($CanvasLayer/GameOver/Label, "modulate:a", 0.0, 4.0)
-	tween.parallel().tween_property($AudioStreamPlayer, "volume_db", -40, 4.0)
+	tween.tween_property($CanvasLayer/GameOver/Label, "modulate:a", 0.0, 2.0)
+	tween.parallel().tween_property($AudioStreamPlayer, "volume_db", -10, 2.0)
 	tween.tween_callback(
 		func(): emit_signal("view_exited", self)
 	)

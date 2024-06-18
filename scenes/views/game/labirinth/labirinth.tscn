@@ -14,7 +14,7 @@ glow_blend_mode = 0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5y3gc"]
 shader = ExtResource("3_621x1")
-shader_parameter/scrool = Vector2(0, 0.004)
+shader_parameter/scrool = Vector2(0.002, 0.004)
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_agm6p"]
 noise_type = 2
@@ -38,6 +38,7 @@ blend_mode = 1
 
 [node name="TextureRect" type="TextureRect" parent="." index="2"]
 material = SubResource("ShaderMaterial_5y3gc")
+use_parent_material = true
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

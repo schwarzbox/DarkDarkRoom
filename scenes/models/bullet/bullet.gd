@@ -21,13 +21,14 @@ func _process(delta: float) -> void:
 	_linear_velocity -= _linear_velocity * delta
 
 	# move
-	if not _died:
+	if !_died:
 		var collision = move_and_collide(_linear_velocity * delta)
 		# collide
 		if collision:
 			var collider = collision.get_collider()
 			if is_instance_of(collider, Enemy):
-				hit()
+				if !collider._died:
+					hit()
 				collider.hit()
 			if is_instance_of(collider, Wall):
 				hit()
@@ -42,14 +43,15 @@ func start(pos: Vector2, other_vel: Vector2, dir: float) -> void:
 	_linear_velocity = (other_vel + Vector2(_force, 0)).rotated(rotation)
 
 func hit() -> void:
-	_died = true
-	var tween = create_tween()
-	tween.tween_property(self, "scale", Vector2(0, 0), Globals.SCALE_DOWN_DELAY)
-	tween.tween_callback(
-		func():
-			emit_signal("bullet_removed")
-			queue_free()
-	)
+	if !_died:
+		_died = true
+		var tween = create_tween()
+		tween.tween_property(self, "scale", Vector2(0, 0), Globals.SCALE_DOWN_DELAY)
+		tween.tween_callback(
+			func():
+				emit_signal("bullet_removed")
+				queue_free()
+		)
 
 
 func _on_visible_on_screen_notifier_2d_screen_exited() -> void:

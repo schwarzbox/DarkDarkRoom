@@ -45,6 +45,8 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	if _died:
+		return
 	# dump
 	_linear_velocity -= _linear_velocity * delta
 
@@ -73,9 +75,9 @@ func _process(delta: float) -> void:
 	if collision:
 		var collider = collision.get_collider()
 		if is_instance_of(collider, Enemy):
-			if !_died && !collider._died:
-				collider.hit()
+			if !collider._died:
 				hit()
+			collider.hit()
 		if is_instance_of(collider, Wall):
 			_linear_velocity = _linear_velocity.bounce(collision.get_normal()) / 2
 
@@ -94,10 +96,11 @@ func start(pos: Vector2) -> void:
 
 func hit() -> void:
 	_hp -= 1
-	if !_died and _hp <= _min_hp:
-		_died = true
-		hide()
-		emit_signal("player_died")
+	if _hp <= _min_hp:
+		if !_died:
+			_died = true
+			hide()
+			emit_signal("player_died")
 	else:
 		set_shape()
 

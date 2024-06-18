@@ -60,13 +60,13 @@ func _process(delta: float) -> void:
 	_linear_velocity += _linear_acceleration * delta
 	_angular_velocity += _angular_acceleration * delta
 
-	#	reset
+	# reset
 	_linear_acceleration = Vector2()
 	_angular_acceleration = 0
 
 	# move
 	# warning-ignore:return_value_discarded
-	if not _died:
+	if !_died:
 		var collision = move_and_collide(_linear_velocity * delta)
 		if collision:
 			var collider = collision.get_collider()
@@ -80,17 +80,18 @@ func start(pos: Vector2) -> void:
 	position = pos
 
 func hit() -> void:
-	_died = true
-	$AudioStreamPlayer2D.play()
+	if !_died:
+		_died = true
+		$AudioStreamPlayer2D.play()
 
-	var tween = create_tween()
-	tween.tween_property(self, "scale", Vector2(0, 0), Globals.SCALE_DOWN_DELAY)
-	tween.tween_callback(
-		func():
-			emit_signal("enemy_died", self)
-			_count -= 1
-	)
-	#print_debug(_count)
+		var tween = create_tween()
+		tween.tween_property(self, "scale", Vector2(0, 0), Globals.SCALE_DOWN_DELAY)
+		tween.tween_callback(
+			func():
+				emit_signal("enemy_died", self)
+				_count -= 1
+		)
+		#print_debug(_count)
 
 
 func _on_target_range_body_entered(body: Player) -> void:
