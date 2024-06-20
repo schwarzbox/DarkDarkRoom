@@ -1,15 +1,15 @@
 extends View
 
 # rotation enemy random rewrite?
-
-# player movements
-# player rotation
-# how to align with actual movement or make it with tween
-
 # check flock movements
 
-
+# regeneration
+#(fire related to size)
 # upgrade screen
+
+# UI use counters
+# player movements?
+
 # game over screen
 
 var _views: Array = []

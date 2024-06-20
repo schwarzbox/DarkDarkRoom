@@ -16,8 +16,14 @@ ESC - exit
 
 P - pause
 
-W - forward
+W - up
 
-S - backward
+S - down
+
+A - left
+
+D - right
 
 Mouse - direction
+
+LMB - shoot

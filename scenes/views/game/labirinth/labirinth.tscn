@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bqdg2idsev2if"]
+[gd_scene load_steps=13 format=3 uid="uid://bqdg2idsev2if"]
 
 [ext_resource type="PackedScene" uid="uid://kn4un6yv7630" path="res://scenes/base/view/view.tscn" id="1_k01ea"]
 [ext_resource type="Script" path="res://scenes/views/game/labirinth/labirinth.gd" id="2_orhx3"]
@@ -25,6 +25,22 @@ cellular_return_type = 2
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_vqj0m"]
 seamless = true
 noise = SubResource("FastNoiseLite_agm6p")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2sk7l"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2cg5s"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
 
 [node name="Labirinth" instance=ExtResource("1_k01ea")]
 script = ExtResource("2_orhx3")
@@ -61,23 +77,37 @@ layout_mode = 2
 text = "Light is Over"
 label_settings = ExtResource("3_lcfbe")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer" index="1"]
-offset_right = 39.0
-offset_bottom = 38.0
+[node name="LevelContainer" type="CenterContainer" parent="CanvasLayer" index="1"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -25.0
+offset_right = 25.0
+offset_bottom = 17.0
+grow_horizontal = 2
 
-[node name="LevelLabel" type="Label" parent="CanvasLayer/VBoxContainer" index="0"]
+[node name="LevelLabel" type="Label" parent="CanvasLayer/LevelContainer" index="0"]
 layout_mode = 2
-text = "Level"
+text = "LEVEL"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="EnemyLabel" type="Label" parent="CanvasLayer/VBoxContainer" index="1"]
-layout_mode = 2
-text = "Cells
-"
+[node name="EnemyContainer" type="VBoxContainer" parent="CanvasLayer" index="2"]
+offset_right = 2.0
+offset_bottom = 128.0
 
-[node name="ScoreLabel" type="Label" parent="CanvasLayer/VBoxContainer" index="2"]
-visible = false
+[node name="Label" type="Label" parent="CanvasLayer/EnemyContainer" index="0"]
 layout_mode = 2
-text = "Score"
+text = "CELLS"
+
+[node name="EnemyBar" type="ProgressBar" parent="CanvasLayer/EnemyContainer" index="1"]
+custom_minimum_size = Vector2(16, 128)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_2sk7l")
+theme_override_styles/fill = SubResource("StyleBoxFlat_2cg5s")
+step = 1.0
+fill_mode = 2
+show_percentage = false
 
 [node name="Models" type="Node2D" parent="World" index="0"]
 script = ExtResource("3_qdkl7")

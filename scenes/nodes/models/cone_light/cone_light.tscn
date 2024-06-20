@@ -10,6 +10,5 @@ script = ExtResource("1_4uwuv")
 blend_mode = 2
 shadow_enabled = true
 shadow_color = Color(0, 0, 0, 0.501961)
-shadow_filter = 1
 texture = ExtResource("2_lybp0")
 offset = Vector2(514, 2.08165e-12)

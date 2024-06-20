@@ -29,6 +29,7 @@ var _score: int = 0: set = set_score
 var _is_shoot: bool = false
 
 var _tween: Tween
+var viewport: Viewport
 
 @onready var size = $Sprite2D.texture.get_size()
 
@@ -40,9 +41,7 @@ func _ready() -> void:
 
 	sprite_size = $Sprite2D.texture.get_size()
 	$Sprite2D.modulate = Globals.GLOW_COLORS.MIDDLE
-
 	#$AnimationPlayer.play("idle")
-
 
 func _process(delta: float) -> void:
 	if _died:
@@ -50,24 +49,23 @@ func _process(delta: float) -> void:
 	# dump
 	_linear_velocity -= _linear_velocity * delta
 
-	if Input.is_action_pressed("ui_up"):
-		_linear_acceleration += Vector2(1, 0).rotated(rotation)
-		$Camera2D.position = Vector2(512, 0)
-	elif Input.is_action_pressed("ui_down"):
-		_linear_acceleration -= Vector2(1, 0).rotated(rotation)
-		$Camera2D.position = Vector2(0, 0)
-	else:
-		$Camera2D.position = Vector2(0, 0)
-
+	#if Input.is_action_pressed("ui_up"):
+		#_linear_acceleration += Vector2(1, 0).rotated(rotation)
+	#elif Input.is_action_pressed("ui_down"):
+		#_linear_acceleration += Vector2(-1, 0).rotated(rotation)
+#
 	#if Input.is_action_pressed("ui_right"):
 		#_linear_acceleration += Vector2(0, 1).rotated(rotation)
-	#if Input.is_action_pressed("ui_left"):
-		#_linear_acceleration -= Vector2(0, 1).rotated(rotation)
+	#elif Input.is_action_pressed("ui_left"):
+		#_linear_acceleration += Vector2(0, -1).rotated(rotation)
+
+	_linear_acceleration.x += Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
+	_linear_acceleration.y += Input.get_action_strength("ui_down")  - Input.get_action_strength("ui_up")
+
 
 	_linear_velocity += _linear_acceleration.normalized() * _force * delta
 
-
-#	reset
+	#	reset
 	_linear_acceleration = Vector2()
 
 	# move
@@ -82,10 +80,12 @@ func _process(delta: float) -> void:
 			_linear_velocity = _linear_velocity.bounce(collision.get_normal()) / 2
 
 	# rotate
-	var dir = get_global_mouse_position() - global_position
+	var angle = global_position.angle_to_point(get_global_mouse_position())
+	rotation = lerp_angle(rotation, angle, 0.1)
 
-	if dir.length() > sprite_size.x:
-		rotation = dir.angle()
+	#var dir = get_global_mouse_position() - global_position
+	#if dir.length() > 1:
+		#rotation = lerp_angle(rotation, dir.angle(), 0.5)
 
 	_shoot()
 

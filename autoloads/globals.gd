@@ -3,6 +3,8 @@ extends Node
 func _ready() -> void:
 	prints(name, "ready")
 
+const AIM_IMAGE: Texture = preload("res://main/aim.png")
+
 const PLAYER_SCENE: PackedScene = preload("res://scenes/models/player/player.tscn")
 const ENEMY_SCENE: PackedScene = preload("res://scenes/models/enemy/enemy.tscn")
 const BULLET_SCENE: PackedScene = preload("res://scenes/models/bullet/bullet.tscn")

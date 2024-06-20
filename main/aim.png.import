@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ce1f5y0h6uj5"
-path="res://.godot/imported/cone.png-e4b3f1696538553ef20ae745fe1f35f8.ctex"
+uid="uid://e7p7bmwsensf"
+path="res://.godot/imported/aim.png-4d3a189467d79e12458a6f57b75fbbdb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/nodes/models/cone_light/cone.png"
-dest_files=["res://.godot/imported/cone.png-e4b3f1696538553ef20ae745fe1f35f8.ctex"]
+source_file="res://main/aim.png"
+dest_files=["res://.godot/imported/aim.png-4d3a189467d79e12458a6f57b75fbbdb.ctex"]
 
 [params]
 
@@ -25,7 +25,7 @@ mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
-process/fix_alpha_border=false
+process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false
 process/hdr_as_srgb=false

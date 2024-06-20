@@ -30,7 +30,10 @@ func _setup() -> void:
 		_start(labirinth)
 
 func _start(view: Node) -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	# custom mouse image
+	Input.set_custom_mouse_cursor(Globals.AIM_IMAGE)
+	#Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	#Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 	level += 1
 	view.connect("view_restarted", self._on_view_restarted)
@@ -62,15 +65,15 @@ func _on_view_restarted(view: Node) -> void:
 	call_deferred("_start", labirinth)
 
 func _on_view_changed(view: Node) -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	Input.set_custom_mouse_cursor(null)
 	await _set_transition(_change, view)
 
 func _on_view_exited(view: Node) -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	Input.set_custom_mouse_cursor(null)
 	#view.queue_free()
 	#await _set_transition(_setup)
 	emit_signal("view_exited", self)
 
 func _on_back_pressed() -> void:
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	Input.set_custom_mouse_cursor(null)
 	emit_signal("view_exited", self)
