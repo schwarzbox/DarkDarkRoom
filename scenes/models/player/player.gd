@@ -28,20 +28,24 @@ var _score: int = 0: set = set_score
 # separate node?
 var _is_shoot: bool = false
 
-var _tween: Tween
-var viewport: Viewport
+var _shape_tween: Tween
 
-@onready var size = $Sprite2D.texture.get_size()
 
 func _ready() -> void:
 	prints(name, "ready")
 	sync_to_physics = false
 
-	$Timer.connect("timeout", func(): _is_shoot = false)
+	$ShootTimer.wait_time = Globals.BULLET_DELAY
+	$ShootTimer.connect("timeout", func(): _is_shoot = false)
+
+	$RegenerateTimer.wait_time = Globals.REGENERATION_DELAY
+	$RegenerateTimer.connect("timeout", _regenerate)
+	$RegenerateTimer.start()
 
 	sprite_size = $Sprite2D.texture.get_size()
 	$Sprite2D.modulate = Globals.GLOW_COLORS.MIDDLE
 	#$AnimationPlayer.play("idle")
+
 
 func _process(delta: float) -> void:
 	if _died:
@@ -65,7 +69,7 @@ func _process(delta: float) -> void:
 
 	_linear_velocity += _linear_acceleration.normalized() * _force * delta
 
-	#	reset
+	# reset
 	_linear_acceleration = Vector2()
 
 	# move
@@ -83,16 +87,12 @@ func _process(delta: float) -> void:
 	var angle = global_position.angle_to_point(get_global_mouse_position())
 	rotation = lerp_angle(rotation, angle, 0.1)
 
-	#var dir = get_global_mouse_position() - global_position
-	#if dir.length() > 1:
-		#rotation = lerp_angle(rotation, dir.angle(), 0.5)
-
 	_shoot()
 
 func start(pos: Vector2) -> void:
 	position = pos
 	_score = _score
-	set_shape()
+	_update_shape()
 
 func hit() -> void:
 	_hp -= 1
@@ -102,28 +102,20 @@ func hit() -> void:
 			hide()
 			emit_signal("player_died")
 	else:
-		set_shape()
-
-func win() -> void:
-	emit_signal("player_won")
-
-func set_shape() -> void:
-	if _tween:
-		_tween.kill()
-
-	_tween = create_tween()
-	var diff: float = float(_hp) / float(_max_hp)
-	_tween.tween_property(
-		self, "scale", Vector2(diff, diff), Globals.PLAYER_SCALE_DOWN_DELAY
-	)
+		_update_shape()
 
 func set_score(value: int) -> void:
 	_score = value
 	emit_signal("score_changed", _score)
 
+func win() -> void:
+	emit_signal("player_won")
+
 func _shoot():
 	if Input.is_action_pressed("ui_left_mouse"):
 		if !_is_shoot:
+			hit()
+
 			_is_shoot = true
 			var bullet = Globals.BULLET_SCENE.instantiate()
 			bullet.start($Marker2D.global_position, _linear_velocity, rotation)
@@ -132,7 +124,26 @@ func _shoot():
 			emit_signal("bullet_added", bullet)
 
 			$AudioStreamPlayer2D.play()
-			$Timer.start(Globals.BULLET_DELAY)
+			$ShootTimer.start()
+
+
+func _regenerate() -> void:
+	if _hp < _max_hp:
+		_hp += 1
+		_update_shape()
+
+	$RegenerateTimer.start()
+
+func _update_shape() -> void:
+	if _shape_tween:
+		_shape_tween.kill()
+
+	_shape_tween = create_tween()
+	var diff: float = float(_hp) / float(_max_hp)
+	_shape_tween.tween_property(
+		self, "scale", Vector2(diff, diff), Globals.PLAYER_SCALE_DOWN_DELAY
+	)
+
 
 func _on_bullet_removed() -> void:
 	_score += 1

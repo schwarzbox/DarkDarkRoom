@@ -1,14 +1,12 @@
 extends View
 
+# upgrade screen
+
+# player movements?
 # rotation enemy random rewrite?
 # check flock movements
 
-# regeneration
-#(fire related to size)
-# upgrade screen
-
 # UI use counters
-# player movements?
 
 # game over screen
 

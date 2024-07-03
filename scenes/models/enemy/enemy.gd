@@ -43,8 +43,6 @@ func _process(delta: float) -> void:
 	_linear_velocity -= _linear_velocity * delta
 	_angular_velocity -= _angular_velocity * delta
 
-	#var screen_size: Vector2 = get_viewport().size
-	#var angle = global_position.angle_to_point(screen_size / 2)
 	if _target:
 		# use velocity
 		var angle: float = global_position.angle_to_point(_target.get_global_position())
