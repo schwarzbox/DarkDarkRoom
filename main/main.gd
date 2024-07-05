@@ -1,7 +1,9 @@
 extends View
 
 # activate combos with space
+#if with_delay:
 # upgrade screen
+# mouse in Light Is Over
 
 # player movements?
 # rotation enemy random rewrite?

@@ -35,7 +35,7 @@ func _ready() -> void:
 	prints(name, "ready")
 	sync_to_physics = false
 
-	$ShootTimer.wait_time = Globals.BULLET_DELAY
+	$ShootTimer.wait_time = Globals.PLAYER_SHOOT_DELAY
 	$ShootTimer.connect("timeout", func(): _is_shoot = false)
 
 	$RegenerationTimer.wait_time = Globals.REGENERATION_DELAY

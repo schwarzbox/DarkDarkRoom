@@ -33,12 +33,15 @@ const FONTS: Dictionary = {
 }
 
 const ALARM_WAIT_TIME: int = 60
-const BULLET_DELAY: float = 0.2
+
+const PLAYER_SHOOT_DELAY: float = 0.2
 const BULLET_MIN_FORCE: float = 16.0
 const REGENERATION_DELAY = 0.8
 
-const SCALE_DOWN_DELAY = 2
-const PLAYER_SCALE_DOWN_DELAY = 0.2
+const ENEMY_SCALE_DOWN_DELAY: float = 0.4
+const BULLET_COMBO_DELAY: float = 1.0
+const BULLET_SCALE_DOWN_DELAY: float = 0.4
+const PLAYER_SCALE_DOWN_DELAY: float = 0.2
 
 
 const COLORS: Dictionary = {

@@ -41,22 +41,20 @@ func steer(value: Vector2, steer_force):
 func _process(delta: float) -> void:
 	# dump
 	_linear_velocity -= _linear_velocity * delta
-	_angular_velocity -= _angular_velocity * delta
+	#_angular_velocity -= _angular_velocity * delta
 
-	if _target:
-		# use velocity
-		var angle: float = global_position.angle_to_point(_target.get_global_position())
-		rotation = lerp_angle(rotation, angle, 1.0)
-		_linear_acceleration += Vector2(_force, 0).rotated(rotation)
-	else:
+	#if _target:
+		#var angle: float = global_position.angle_to_point(_target.get_global_position())
+		#rotation = lerp_angle(rotation, angle, 1.0)
 		#_linear_acceleration += Vector2(_force, 0).rotated(rotation)
-		#_angular_acceleration += randf_range(-PI, PI) * _torque
-		var angle: float = randf_range(0, TAU)
-		rotation = lerp_angle(rotation, angle, 1.0)
-		_linear_acceleration += Vector2(_force, 0).rotated(rotation)
+	#else:
+
+	var angle: float = randf_range(0, TAU)
+	rotation = lerp_angle(rotation, angle, 1.0)
+	_linear_acceleration += Vector2(_force, 0).rotated(rotation)
 
 	_linear_velocity += _linear_acceleration * delta
-	_angular_velocity += _angular_acceleration * delta
+	#_angular_velocity += _angular_acceleration * delta
 
 	# reset
 	_linear_acceleration = Vector2()
@@ -83,7 +81,7 @@ func hit() -> void:
 		$AudioStreamPlayer2D.play()
 
 		var tween = create_tween()
-		tween.tween_property(self, "scale", Vector2(0, 0), Globals.SCALE_DOWN_DELAY)
+		tween.tween_property(self, "scale", Vector2(0, 0), Globals.ENEMY_SCALE_DOWN_DELAY)
 		tween.tween_callback(
 			func():
 				emit_signal("enemy_died", self)
