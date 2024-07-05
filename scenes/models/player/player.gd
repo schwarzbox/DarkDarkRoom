@@ -38,9 +38,9 @@ func _ready() -> void:
 	$ShootTimer.wait_time = Globals.BULLET_DELAY
 	$ShootTimer.connect("timeout", func(): _is_shoot = false)
 
-	$RegenerateTimer.wait_time = Globals.REGENERATION_DELAY
-	$RegenerateTimer.connect("timeout", _regenerate)
-	$RegenerateTimer.start()
+	$RegenerationTimer.wait_time = Globals.REGENERATION_DELAY
+	$RegenerationTimer.connect("timeout", _regenerate)
+	$RegenerationTimer.start()
 
 	sprite_size = $Sprite2D.texture.get_size()
 	$Sprite2D.modulate = Globals.GLOW_COLORS.MIDDLE
@@ -132,7 +132,7 @@ func _regenerate() -> void:
 		_hp += 1
 		_update_shape()
 
-	$RegenerateTimer.start()
+	$RegenerationTimer.start()
 
 func _update_shape() -> void:
 	if _shape_tween:

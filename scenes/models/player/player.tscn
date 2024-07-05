@@ -74,7 +74,7 @@ libraries = {
 "": SubResource("AnimationLibrary_hauaj")
 }
 
-[node name="RegenerateTimer" type="Timer" parent="."]
+[node name="RegenerationTimer" type="Timer" parent="."]
 
 [node name="ShootTimer" type="Timer" parent="."]
 

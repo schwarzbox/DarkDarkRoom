@@ -1,5 +1,6 @@
 extends View
 
+# activate combos with space
 # upgrade screen
 
 # player movements?
