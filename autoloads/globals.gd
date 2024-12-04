@@ -36,7 +36,8 @@ const ALARM_WAIT_TIME: int = 60
 
 const PLAYER_SHOOT_DELAY: float = 0.2
 const BULLET_MIN_FORCE: float = 16.0
-const REGENERATION_DELAY = 0.8
+const BULLET_DELAY: float = 0.2
+const REGENERATION_DELAY: float = 1.0
 
 const ENEMY_SCALE_DOWN_DELAY: float = 0.4
 const BULLET_COMBO_DELAY: float = 1.0

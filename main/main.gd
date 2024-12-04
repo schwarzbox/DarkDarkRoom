@@ -10,7 +10,6 @@ extends View
 # check flock movements
 
 # UI use counters
-
 # game over screen
 
 var _views: Array = []
