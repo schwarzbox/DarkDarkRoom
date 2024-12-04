@@ -52,6 +52,6 @@ theme_override_styles/normal = ExtResource("4_xe0p1")
 theme_override_styles/hover = ExtResource("4_xe0p1")
 theme_override_styles/pressed = ExtResource("4_xe0p1")
 theme_override_styles/focus = ExtResource("4_xe0p1")
-text = "START"
+text = "PLAY"
 
 [connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/VBoxContainer/Game" to="." method="_on_game_pressed"]
